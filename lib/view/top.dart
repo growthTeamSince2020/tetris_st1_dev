@@ -16,7 +16,7 @@ class top extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.end,
             children: <Widget>[
               ElevatedButton(
-                // 立体的なボタン
+                // 立体的なボタンコメント追加
                 onPressed: () =>
                     Navigator.of(context).pushNamed("/singlePlay"), // 次の画面を乗せる
                 style: ElevatedButton.styleFrom(
