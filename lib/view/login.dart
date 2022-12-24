@@ -1,16 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class top extends StatelessWidget {
+class login extends StatelessWidget {
+  static final googleLogin = GoogleSignIn(
+    scopes: [
+      'email',
+      'https://www.googleapis.com/auth/contacts.readonly',
+    ],
+  );
+
+  void logIn() async {
+    GoogleSignInAccount sAccount = await googleLogin.signIn();
+
+    GoogleSignInAuthentication auth = await sAccount.authentication;
+    final credential = GoogleAuthProvider.getCredential(
+      idToken: auth.idToken,
+      accessToken: auth.accessToken,
+    );
+    FirebaseAuth.instance.signInWithCredential(credential);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // backgroundColor: Color.fromRGBO(229,204,255,30),
       body: Container(
         decoration: const BoxDecoration(
+            color: Colors.orange,
             image: DecorationImage(
-          image: AssetImage('assets/images/white_wood.jpg'),
-          fit: BoxFit.fill,
-        )),
+               // image: AssetImage('assets/images/white_wood.jpg'),
+              image: AssetImage(''),
+              fit: BoxFit.fill,
+            )),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.end,
@@ -18,7 +39,7 @@ class top extends StatelessWidget {
               ElevatedButton(
                 // 立体的なボタンコメント追加
                 onPressed: () =>
-                    Navigator.of(context).pushNamed("/singlePlay"), // 次の画面を乗せる
+                    Navigator.of(context).pushNamed("/"),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   elevation: 0,
@@ -29,7 +50,7 @@ class top extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  "シングルプレイ",
+                  "克基",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,
@@ -40,7 +61,7 @@ class top extends StatelessWidget {
               ElevatedButton(
                 // 立体的なボタン
                 onPressed: () =>
-                    Navigator.of(context).pushNamed("/login"), // 次の画面を乗せる
+                    Navigator.pop(context), // 次の画面を乗せる
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   elevation: 0,
@@ -51,29 +72,7 @@ class top extends StatelessWidget {
                   ),
                 ),
                 child: const Text(
-                  "ログイン",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              ),
-              ElevatedButton(
-                // 立体的なボタン
-                onPressed: () =>
-                    Navigator.of(context).pushNamed("/"), // 次の画面を乗せる
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  elevation: 0,
-                  onPrimary: Colors.black,
-                  side: const BorderSide(
-                    color: Colors.black, //枠線!
-                    width: 3, //枠線！
-                  ),
-                ),
-                child: const Text(
-                  "会員登録",
+                  "戻る",
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 20,

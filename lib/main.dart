@@ -2,6 +2,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:tetris_st1_dev/view/login.dart';
 import 'package:tetris_st1_dev/view/singlePlay.dart';
 import 'package:tetris_st1_dev/view/top.dart';
 
@@ -27,7 +28,8 @@ class MyApp extends StatelessWidget {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     return MaterialApp(home: top(), routes: <String, WidgetBuilder>{
       '/top': (BuildContext context) => top(), // 最初のページ
-      '/singlePlay': (BuildContext context) => singlePlay() // 次のページ
+      '/singlePlay': (BuildContext context) => singlePlay(), // 次のページ
+      '/login': (BuildContext context) => login() // ログイン
     });
   }
 }
