@@ -4,19 +4,27 @@ import 'package:firebase_auth/firebase_auth.dart';
 
 class login extends StatelessWidget {
   static final googleLogin = GoogleSignIn(
-    scopes: [
+    scopes: <String>[
       'email',
       'https://www.googleapis.com/auth/contacts.readonly',
     ],
   );
 
   void logIn() async {
-    GoogleSignInAccount sAccount = await googleLogin.signIn();
 
-    GoogleSignInAuthentication auth = await sAccount.authentication;
-    final credential = GoogleAuthProvider.getCredential(
-      idToken: auth.idToken,
+    // Google認証を行う
+    final account = await googleLogin.signIn();
+
+    // ログインに失敗したら処理終了
+    if(account == null) return;
+
+    // 認証情報の取得？
+    GoogleSignInAuthentication auth = await account.authentication;
+
+    //
+    final credential = GoogleAuthProvider.credential(
       accessToken: auth.accessToken,
+      idToken: auth.idToken,
     );
     FirebaseAuth.instance.signInWithCredential(credential);
   }
@@ -28,8 +36,8 @@ class login extends StatelessWidget {
         decoration: const BoxDecoration(
             color: Colors.orange,
             image: DecorationImage(
-               // image: AssetImage('assets/images/white_wood.jpg'),
-              image: AssetImage(''),
+              image: AssetImage('assets/images/white_wood.jpg'),
+              //image: AssetImage(''),
               fit: BoxFit.fill,
             )),
         child: Center(
@@ -38,8 +46,7 @@ class login extends StatelessWidget {
             children: <Widget>[
               ElevatedButton(
                 // 立体的なボタンコメント追加
-                onPressed: () =>
-                    Navigator.of(context).pushNamed("/"),
+                onPressed: () => logIn(),
                 style: ElevatedButton.styleFrom(
                   primary: Colors.transparent,
                   elevation: 0,
@@ -58,28 +65,6 @@ class login extends StatelessWidget {
                   ),
                 ),
               ),
-              ElevatedButton(
-                // 立体的なボタン
-                onPressed: () =>
-                    Navigator.pop(context), // 次の画面を乗せる
-                style: ElevatedButton.styleFrom(
-                  primary: Colors.transparent,
-                  elevation: 0,
-                  onPrimary: Colors.black,
-                  side: const BorderSide(
-                    color: Colors.black, //枠線!
-                    width: 3, //枠線！
-                  ),
-                ),
-                child: const Text(
-                  "戻る",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 20,
-                    color: Colors.black,
-                  ),
-                ),
-              )
             ],
           ),
         ),
